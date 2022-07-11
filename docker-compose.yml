@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  django:
+    build:
+      context: .
+    container_name: agendamiento_varios
+    image: agendamiento_django
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    environment:
+      - DEBUG=True
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    command: uvicorn --reload agendamiento.asgi:application --host 0.0.0.0 --log-level debug --use-colors --loop uvloop
+    healthcheck:
+      test: curl -f http://localhost:8000/api/docs/ || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    networks:
+      - agendamiento-main
+
+  redis:
+    image: redis:5.0-alpine
+    container_name: agendamiento_redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - agendamiento-main
+
+  db:
+    image: postgres:13-alpine
+    container_name: agendamiento_bd
+    env_file:
+      - .env
+    volumes:
+      - agendamiento-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - agendamiento-main
+
+volumes:
+  agendamiento-db-data:
+
+networks:
+  agendamiento-main:
+    driver: bridge
