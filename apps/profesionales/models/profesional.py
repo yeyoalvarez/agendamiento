@@ -4,7 +4,21 @@ from django.db import models
 from apps.base.models import TimestampedModel
 
 
+class especialidad(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre_especialidad = models.CharField(max_length=25, blank=False, null=False)
+
+class Meta:
+    verbose_name = 'especialidad'
+    verbose_name_plural = 'Especialidad'
+    ordering = ['nombre_especialidad']
+
+def __str__(self):
+    return self.nombre_especialidad
+
+
 class Profesional(TimestampedModel):
+    id = models.AutoField('profesionales.Profesional',primary_key=True)
     mostrar = models.BooleanField(default=True)
     grado = models.CharField(max_length=255, help_text="Grado academico alcanzado por el profesional")
     nombres = models.CharField(max_length=255)
@@ -15,18 +29,6 @@ class Profesional(TimestampedModel):
     #     models.CharField(max_length=255), help_text="Especialidades separadas por comas"
     # )
 
-
-    class especialidad(TimestampedModel):
-        id = models.AutoField(primary_key=True)
-        nombre_especialidad = models.CharField(max_length=25, blank=False, null=False)
-
-    class Meta:
-        verbose_name = 'especialidad'
-        verbose_name_plural = 'Especialidad'
-        ordering = ['nombre_especialidad']
-
-    def __str__(self):
-        return self.nombre_idioma
 
     @property
     def img(self):

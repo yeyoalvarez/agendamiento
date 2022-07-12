@@ -19,3 +19,5 @@ djangorestframework-simplejwt==5.1.0  # https://django-rest-framework-simplejwt.
 django-jazzmin  # https://github.com/farridav/django-jazzmin
 
 whitenoise==6.0.0  # https://github.com/evansd/whitenoise/
+
+pip install django-bulma

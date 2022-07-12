@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}{% load static %}{% block content %}
+  <div class="container">
+    <div class="content">
+      <section class="section" id="profesional">
+        <h1 class="title">{{ object.get_full_name }}</h1>
+        <p class="subtitle">
+          {% for especialidad in object.especialidades %}
+            <span class="tag is-primary">{{ especialidad }}</span>
+          {% endfor %}
+        </p>
+      </section>
+      <section class="section" id="horarios">
+        <h2 class="title">Horarios de atención por especialidad</h2>
+        {% for grupo in object.get_horarios_agrupados %}
+          <h3 class="title">{{ grupo.especialidades }}</h3>
+          <ul>
+            {% for dia in grupo.horarios %}
+              <li>
+                <b>{{ dia.dia_display }}:</b> {{ dia.horario }}
+                <a class="button is-primary is-small" title="Solicitar agendamiento" href="{% url 'nuevo_agendamiento' dia.horario_id %}">
+                  <span class="material-icons">event</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </section>
+    </div>
+  </div>
+{% endblock %}

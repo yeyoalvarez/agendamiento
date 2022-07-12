@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}{% load static %}{% block content %}
+  <div class="container">
+    <div class="content">
+      <section class="section">
+        <h1 class="title">Buscador de profesionales</h1>
+        <form method="get">
+          <div class="field has-addons">
+            <div class="control">
+              <input name="q" class="input" type="text" placeholder="Que está buscando?">
+            </div>
+            <div class="control">
+              <button type="submit" class="button is-info">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+      <section class="section">
+        <div class="columns is-multiline is-desktop">
+
+          {% for item in page_obj %}
+            <div class="column is-half-desktop is-one-third-fullhd">
+              <div class="card">
+              <a href="{% url 'detalle_profesional' item.id %}">
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-left">
+                      <figure class="image is-48x48">
+                        <img src="{% static item.img %}" alt="Profile picture of {{ item.get_short_name }}">
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <p class="title is-4">{{ item.get_full_name }}</p>
+                      <p class="subtitle">
+                        {% for especialidad in item.especialidades %}
+                          <span class="tag is-primary">{{ especialidad }}</span>
+                        {% endfor %}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="content">
+                    Trabaja en {{ item.sanatorio.nombre }}
+                  </div>
+                </div>
+              </a>
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+      </section>
+    </div>
+  <section class="section">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+      <a class="pagination-previous"
+         {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% else %}disabled{% endif %}
+      >Anterior</a>
+      <a class="pagination-next" {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"
+         {% else %}disabled{% endif %}>Siguiente</a>
+      <ul class="pagination-list">
+        {% if page_obj.has_previous %}
+          <li><a class="pagination-link" aria-label="Ir a la pagina 1">1</a></li>
+          {% if page_obj.number > 2 %}
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {% endif %} {% endif %}
+        <li>
+          <a class="pagination-link is-current" aria-label="Pagina {{ page_obj.number }}" aria-current="page"
+          >{{ page_obj.number }}</a
+          >
+        </li>
+        {% if page_obj.has_next %}
+          {% if page_obj.number < page_obj.next_page_number and page_obj.next_page_number < page_obj.paginator.num_pages %}
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {% endif %}
+          <li>
+            <a class="pagination-link" aria-label="Ir a la pagina {{ page_obj.paginator.num_pages }}"
+            >{{ page_obj.paginator.num_pages }}</a
+            >
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </section>
+  </div>
+{% endblock %}

@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                 ('minuto_fin', models.PositiveSmallIntegerField(blank=True, choices=[(0, 0), (15, 15), (30, 30), (45, 45)], help_text='en blanco para no mostrar', null=True)),
                 ('mpp', models.PositiveSmallIntegerField(default=0, help_text='0 para no mostrar', verbose_name='Minutos por paciente')),
                 ('especialidades', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), blank=True, help_text='Especialidades que atiende en este horario', size=None)),
-                ('profesional', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='horarios', to='sanatorio.profesional')),
+                ('profesional', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='horarios', to='profesionales.profesional')),
             ],
             options={
                 'abstract': False,

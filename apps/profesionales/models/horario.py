@@ -22,7 +22,7 @@ DIAS = (
 
 
 class HorarioProfesional(TimestampedModel, UuidAsPkModel):
-    profesional = models.ForeignKey("sanatorio.Profesional", on_delete=models.CASCADE, related_name="horarios")
+    profesional = models.ForeignKey("profesionales.Profesional", on_delete=models.CASCADE, related_name="horarios")
     dia = models.PositiveSmallIntegerField(default=DOMINGO, choices=DIAS)
     hora_inicio = models.PositiveSmallIntegerField(choices=((x, x) for x in range(0, 24)), default=12)
     minuto_inicio = models.PositiveSmallIntegerField(choices=((x, x) for x in range(0, 46, 15)), default=0)

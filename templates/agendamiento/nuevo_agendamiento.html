@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}{% load static %}{% block content %}
+<div class="container">
+  <div class="content">
+    <section class="section">
+      <h1 class="title">Nuevo agendamiento para {{horario.profesional.get_full_name}}</h1>
+      <p class="subtitle">
+        {% for especialidad in especialidades %}
+          <span class="tag is-primary">{{ especialidad }}</span>
+        {% endfor %}
+      </p>
+      <p><b>Horario seleccionado:</b> {{horario.get_dia_display}} {{horario.get_range}}</p>
+      <p><b>En:</b> {{horario.profesional.sanatorio.nombre}}</p>
+    </section>
+    <section class="section">
+      <h4 class="title">Seleccione la fecha que desea agendar en el horario seleccionado</h4>
+      <form method="post">
+        <input class="input" type="hidden" value="{{horario.pk}}" name="{{form.horario.name}}">
+        <div class="field">
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="{{form.dia.name}}" checked value="{{fecha1.isoformat}}">
+              {{fecha1}}
+            </label>
+            <label class="radio">
+              <input type="radio" name="{{form.dia.name}}" value="{{fecha2.isoformat}}">
+              {{fecha2}}
+            </label>
+            <label class="radio">
+              <input type="radio" name="{{form.dia.name}}" value="{{fecha3.isoformat}}">
+              {{fecha3}}
+            </label>
+          </div>
+        </div>
+        {% csrf_token %}
+        <div class="control">
+          <button type="submit" class="button is-info">
+            Solicitar
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}
