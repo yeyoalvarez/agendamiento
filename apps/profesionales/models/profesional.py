@@ -3,32 +3,29 @@ from django.db import models
 
 from apps.base.models import TimestampedModel
 
-
 class especialidad(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre_especialidad = models.CharField(max_length=25, blank=False, null=False)
+    nombre_especialidad = models.CharField('Especialidad',max_length=25, blank=False, null=False)
 
-class Meta:
-    verbose_name = 'especialidad'
-    verbose_name_plural = 'Especialidad'
-    ordering = ['nombre_especialidad']
+    class Meta:
+        verbose_name = 'Especialidad'
+        verbose_name_plural = 'Especialidades'
+        ordering = ['nombre_especialidad']
 
-def __str__(self):
-    return self.nombre_especialidad
+    def __str__(self):
+        return self.nombre_especialidad
 
 
 class Profesional(TimestampedModel):
-    id = models.AutoField('profesionales.Profesional',primary_key=True)
+    GRADOS_ESTUDIO=(
+        ('Doctor','Dr'),
+        ('Licenciado','Lic')
+    )
     mostrar = models.BooleanField(default=True)
-    grado = models.CharField(max_length=255, help_text="Grado academico alcanzado por el profesional")
+    grado = models.CharField(choices = GRADOS_ESTUDIO,max_length=50,
+                             help_text="Grado academico alcanzado por el profesional")
     nombres = models.CharField(max_length=255)
     apellidos = models.CharField(max_length=255)
-    especialidades = models.ManyToManyField('Profesional.especialidad',help_text="Especialidades del medico")
-
-    # especialidades = postgres_fields.ArrayField(
-    #     models.CharField(max_length=255), help_text="Especialidades separadas por comas"
-    # )
-
+    especialidades = models.ManyToManyField("especialidad",help_text="Especialidades del medico")
 
     @property
     def img(self):

@@ -52,6 +52,27 @@ services:
     networks:
       - agendamiento-main
 
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'gregorgg23@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: 'test'
+    ports:
+      - '80:80'
+    depends_on:
+      - postgres
+
 volumes:
   agendamiento-db-data:
 
